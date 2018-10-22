@@ -5,13 +5,12 @@
 {% block content %}
 <br></br>
 <br></br>
-<div class="container">
 {% if request.user.is_authenticated %}
-        
-          <button href="{% url 'event-create' %}" class="btn btn-outline-secondary" type="submit">Create Event</button>
-        
+          <li class="list-group-item text-center">
+              <a href="{% url 'event-create'%}" class="btn btn-outline-primary">Create Event</a>
+      </li>
 {% endif %}   
-</div> 
+
 <br></br>   
 <div class="container">
 <form action="{% url 'event-list' %}">
@@ -39,7 +38,9 @@
             <li class="list-group-item text-center">
                 <a href="{% url 'event-detail' event.id %}" class="btn btn-outline-dark">View</a>
             </li>
-
+          <li class="list-group-item text-center">
+              <a href="{% url 'event-update' event.id %}" class="btn btn-outline-primary">Update</a>
+          </li>
           </ul>
         
      

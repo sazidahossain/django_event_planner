@@ -17,10 +17,11 @@
     <p class="card-text">Description: {{event.description|linebreaks}}</p>
     <p class="card-text">Location: {{event.location|truncatechars:25}}</p>
     <p class="card-text">Capacity: {{event.capacity|truncatechars:25}}</p>
-    
-        <div class="col-md-4">
-            <a href="{% url 'event-update' event.id %}" class="btn btn-outline-primary btn-block">Update</a>
-        </div>
+    {% if request.user == event.organizer %}
+      <li class="list-group-item text-center">
+              <a href="{% url 'event-update' event.id %}" class="btn btn-outline-primary">Update</a>
+      </li>
+    {% endif %}  
 
 </div>  
 {% comment %}
