@@ -5,6 +5,7 @@ from django.views import View
 from .forms import UserSignup, UserLogin,EventForm
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.db.models import Q
 def home(request):
     return render(request, 'home.html')
 
@@ -78,6 +79,8 @@ def event_create(request):
     return render(request, 'create_event.html', context)
 
 def event_list(request):
+    if request.user.is_anonymous:
+        return redirect('login')    
     events = Event.objects.all()
     query = request.GET.get('q')
     if query:        
@@ -93,8 +96,17 @@ def event_list(request):
        "events": events,
     }
     return render(request, 'list.html', context)
+def organizer_dashboard(request):
+    created_events = Event.objects.filter(organizer=request.user)
+    context = {
+       "events": created_events,
+    }
+    return render(request, 'dashboard.html', context)
 
 def event_detail(request, event_id):
+    if request.user.is_anonymous:
+        return redirect('login')
+
     event = Event.objects.get(id=event_id)
     context = {
         "event": event,
@@ -104,7 +116,7 @@ def event_detail(request, event_id):
 
 def no_access(request):
     return render(request, 'no_access.html')
-    
+
 def event_update(request, event_id):
     event_obj = Event.objects.get(id=event_id)
     if not (request.user == event_obj.organizer):
@@ -119,4 +131,5 @@ def event_update(request, event_id):
         "event_obj": event_obj,
         "form":form,
     }
-    return render(request, 'update.html', context)        
+    return render(request, 'update.html', context) 
+           

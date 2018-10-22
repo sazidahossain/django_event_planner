@@ -11,4 +11,5 @@ urlpatterns = [
     path('events/<int:event_id>/detail/',views.event_detail ,name='event-detail'),
     path('no-access/',views.no_access ,name='no-access'),
     path('events/<int:event_id>/update/',views.event_update ,name='event-update'),
+    path('events/dashboard/',views.organizer_dashboard ,name='dashboard'),
 ]

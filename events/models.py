@@ -7,7 +7,12 @@ class Event(models.Model):
     description = models.TextField()
     date=models.DateField()
     time = models.TimeField()
-    seats = models.IntegerField()
+    capacity = models.IntegerField()
 
     def __str__(self):
         return self.title
+
+class Book(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    #seats=

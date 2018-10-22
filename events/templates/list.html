@@ -3,8 +3,9 @@
 {% block title %}List{% endblock title %}
 
 {% block content %}
-<br>
-<!--
+<br></br>
+<br></br>
+<div class="container">
 <form action="{% url 'event-list' %}">
   <div class="input-group mb-3">
     <input type="text" class="form-control" placeholder="Search" aria-label="Search" name="q" value="{{request.GET.q}}">
@@ -13,31 +14,34 @@
     </div>
   </div>
 </form>
--->
+</div>
+<div class="container">
 <div class="row">
     {% for event in events %}
     <div class="col-md-4">
         <div class="card my-card">
           
           <div class="card-body">
-            <h5 class="card-title">{{event.title}}</h5>
-            <p class="card-text">{{event.seats|truncatechars:25}}</p>
-            <p class="card-text">{{event.date|truncatechars:25}}</p>
-            <p class="card-text">{{event.time|truncatechars:25}}</p>
-          <!--
+            <h5 class="card-title">Title: {{event.title}}</h5>
+            <p class="card-text">Date: {{event.date|truncatechars:25}}</p>
+            <p class="card-text">Time: {{event.time|truncatechars:25}}</p>
+            <p class="card-text">Capacity: {{event.capacity|truncatechars:25}}</p>
+            <p class="card-text">Seats Available: {{event.capacity|truncatechars:25}}</p>
           <ul class="list-group list-group-flush">
             <li class="list-group-item text-center">
-                <a href="{% url 'event-detail' event.id %}" class="btn btn-outline-dark">View</a>
+                <a href="{% url 'event-detail' event.id %}" class="btn btn-outline-dark">View Details</a>
             </li>
 
           </ul>
-        -->
+      
      
         </div>
         </div>
     </div>
     {% endfor %}
 </div>
+</div>
+
 <!--
 <script>
 function favorite(restaurant_id){

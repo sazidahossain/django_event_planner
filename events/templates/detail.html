@@ -4,17 +4,25 @@
 
 {% block content %}
 
-<br>
+<br></br>
+<br></br>
+<div class="container">
 <div class="card">
   <h5 class="card-header">Event Info:</h5>
   
   <div class="card-body">
-    <h5 class="card-title">{{event.title}}</h5>
-    <p class="card-text">{{event.description|linebreaks}}</p>
-    <p class="card-text">Time: {{event.time}}</p>
+    <h5 class="card-title">Title: {{event.title}}</h5>
     <p class="card-text">Date: {{event.date}}</p>
-    <p class="card-text">{{event.seats|truncatechars:25}}</p>
-  </div>
+    <p class="card-text">Time: {{event.time}}</p>
+    <p class="card-text">Description: {{event.description|linebreaks}}</p>
+    <p class="card-text">Location: {{event.location|truncatechars:25}}</p>
+    <p class="card-text">Capacity: {{event.capacity|truncatechars:25}}</p>
+    
+        <div class="col-md-4">
+            <a href="{% url 'event-update' event.id %}" class="btn btn-outline-primary btn-block">Update</a>
+        </div>
+
+</div>  
 {% comment %}
  {% if event.organizer==request.user %}
     <h5 class="card-title">Our Items</h5>
