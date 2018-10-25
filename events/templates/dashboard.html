@@ -3,43 +3,48 @@
 {% block title %}List{% endblock title %}
 
 {% block content %}
-<br></br>
-<br></br>
-{% if request.user.is_authenticated %}
-          <li class="list-group-item text-center">
-              <a href="{% url 'event-create'%}" class="btn btn-outline-primary">Create Event</a>
-      </li>
-{% endif %}   
+<header class="masthead">
+<div class="backx">
 
-<br></br>   
-<div class="container">
-<form action="{% url 'event-list' %}">
+<form action="{% url 'dashboard' %}">
   <div class="input-group mb-3">
     <input type="text" class="form-control" placeholder="Search" aria-label="Search" name="q" value="{{request.GET.q}}">
     <div class="input-group-append">
-      <button class="btn btn-outline-secondary" type="submit">Search</button>
+      <button class="btn btn-outline-warning" type="submit"><i class="fas fa-search"></i></button>
     </div>
   </div>
 </form>
-</div>
+
+    {% if request.user.is_authenticated %}
+              <li class="text-center">
+                  <a href="{% url 'event-create'%}" class="btn btn-warning rounded-pill btn-lg" >Create Event <i class="fas fa-plus-circle"></i></a>
+          </li>
+    {% endif %}
+<br></br>
+<div class="container">
+<h1 class="text-warning text-center">Organized Events</h1>
+</div>    
 <div class="container">
 <div class="row">
     {% for event in events %}
-    <div class="col-md-4">
-        <div class="card my-card">
+    <div class="col-md-4 mt-4">
+        <div class="card my-card border-warning">
           
           <div class="card-body">
-            <h5 class="card-title">{{event.title}}</h5>
-            <p class="card-text">{{event.capacity|truncatechars:25}}</p>
-            <p class="card-text">{{event.date|truncatechars:25}}</p>
-            <p class="card-text">{{event.time|truncatechars:25}}</p>
+            <h1 class="card-title text-warning">Event: {{event.title}}</h1>
+            <h5 class="card-text">Capacity: {{event.capacity|truncatechars:25}}</h5>
+            <h5 class="card-text">Date: {{event.date|truncatechars:25}}</h5>
+            <h5 class="card-text">Time: {{event.time|truncatechars:25}}</h5>
           
           <ul class="list-group list-group-flush">
             <li class="list-group-item text-center">
-                <a href="{% url 'event-detail' event.id %}" class="btn btn-outline-dark">View</a>
+                <a href="{% url 'event-detail' event.id %}" class="btn btn-dark rounded-pill">View <i class="fas fa-eye"></i></a>
             </li>
           <li class="list-group-item text-center">
-              <a href="{% url 'event-update' event.id %}" class="btn btn-outline-primary">Update</a>
+              <a href="{% url 'event-update' event.id %}" class="btn btn-warning rounded-pill">Update <i class="fas fa-edit"></i></a>
+          </li>
+          <li class="list-group-item text-center">
+              <a href="{% url 'event-delete' event.id %}" class="btn btn-danger rounded-pill">Delete <i class="fas fa-trash-alt"></i></a>
           </li>
           </ul>
         
@@ -50,4 +55,40 @@
     {% endfor %}
 </div>
 </div>
+<br></br>
+<div class="container">
+
+<h1 class="text-warning text-center">Booked Events</h1>
+
+</div>  
+<div class="container">
+<div class="row">
+    {% for book in books %}
+    <div class="col-md-4 mt-4">
+        <div class="card my-card border-warning">
+          
+          <div class="card-body">
+            <h1 class="card-title text-warning">Event: {{book.event.title}}</h1>
+            <h5 class="card-text">Date: {{book.event.date|truncatechars:25}}</h5>
+            <h5 class="card-text">Time: {{book.event.time|truncatechars:25}}</h5>
+            <h5 class="card-text">Booked seats: {{book.seats|truncatechars:25}}</h5>
+            <h5 class="card-text">Seats Left: {{book.event.seats_left|truncatechars:25}}</h5>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item text-center">
+                <a href="{% url 'event-detail' book.event.id %}" class="btn btn-dark rounded-pill">View <i class="fas fa-eye"></i></a>
+            </li>
+            <li class="list-group-item text-center">
+             <a href="{% url 'book-delete' book.id %}" class="btn btn-primary btn-lg rounded-pill">Cancel Booking <i class="far fa-flushed"></i> </a>
+           </li>
+          </ul>
+        
+     
+        </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</div>
+</div>
+</header>
 {% endblock content %}

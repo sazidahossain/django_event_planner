@@ -9,7 +9,7 @@
           <form action="{% url 'login' %}" method="POST">
             {% csrf_token %}
             {{form|crispy}}
-            <input class = "btn btn-primary btn-xl rounded-pill mt-5" type="submit" value="Login">
+            <input class = "btn btn-warning btn-xl rounded-pill mt-5" type="submit" value="Login">
           </form>
       </div>
     </div>
@@ -19,4 +19,5 @@
   <div class="bg-circle-3 bg-circle"></div>
   <div class="bg-circle-4 bg-circle"></div>
 </header>
+
 {% endblock %}

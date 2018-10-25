@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Update{% endblock title %}
+
+{% block content %}
+<br></br>
+<br></br>
+<div class="container">
+<div class="card">
+  <h5 class="card-header">Update: {{user_obj.username}}</h5>
+  <div class="card-body">
+    <p class="card-text">
+        <form action="{% url 'user-update' user_obj.id %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form|crispy}}
+            <input type="submit" value="Update" class="btn btn-outline-primary">
+        </form>
+    </p>
+  </div>
+</div>
+</div>
+{% endblock content %}

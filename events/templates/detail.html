@@ -3,62 +3,59 @@
 {% block title %}Detail{% endblock title %}
 
 {% block content %}
-
-<br></br>
-<br></br>
+<header class="masthead" >
+<div class="backx">  
 <div class="container">
-<div class="card">
-  <h5 class="card-header">Event Info:</h5>
+<div class="card text-white border-warning">
+  <h1 class="card-header border-warning bg-warning">Event Info: {{event.title}}</h1>
   
-  <div class="card-body">
-    <h5 class="card-title">Title: {{event.title}}</h5>
-    <p class="card-text">Date: {{event.date}}</p>
-    <p class="card-text">Time: {{event.time}}</p>
-    <p class="card-text">Description: {{event.description|linebreaks}}</p>
-    <p class="card-text">Location: {{event.location|truncatechars:25}}</p>
-    <p class="card-text">Capacity: {{event.capacity|truncatechars:25}}</p>
+  <div class="card-body text-warning">
+    <h5>Date:</h5><h5 class="card-text text-dark"> {{event.date}}</h5>
+    <h5>Time:</h5><h5 class="card-text text-dark">{{event.time}}</h5>
+    <h5>Description:</h5><h5 class="card-text text-dark">{{event.description}}</h5>
+    <h5>Location:</h5><h5 class="card-text text-dark">{{event.location|truncatechars:25}}</h5>
+    <h5>Capacity:</h5><h5 class="card-text text-dark">{{event.capacity|truncatechars:25}}</h5>
+    <h5>Seats Left:</h5><h5 class="card-text text-dark">{{event.seats_left|truncatechars:25}}</h5>
     {% if request.user == event.organizer %}
-      <li class="list-group-item text-center">
-              <a href="{% url 'event-update' event.id %}" class="btn btn-outline-primary">Update</a>
+      <li class="list-group-item text-center border-warning">
+              <a href="{% url 'event-update' event.id %}" class="btn btn-warning btn-lg rounded-pill">Update <i class="far fa-edit"></i></a>
+              <a href="{% url 'event-delete' event.id %}" class="btn btn-danger btn-lg rounded-pill">Delete <i class="fas fa-trash-alt"></i></a>
       </li>
+    <table class="table">
+      <thead>
+      <tr>
+      <th scope="col">Username</th>
+      <th scope="col">No of tickets</th>
+      </tr>
+      </thead>
+       <tbody>
+            {% for book in bookings %}
+            <tr>
+            <td>{{book.user.username}}</td>
+            <td>{{book.seats}}</td>
+            </tr>
+            {% endfor %}
+
+    </tbody>
+    </table>
+    {% endif %} 
+    {% if request.user != event.organizer %}
+    {% if event.seats_left != 0 %} 
+      <li class="list-group-item text-center border-warning">
+              <a href="{% url 'event-book' event.id %}" class="btn btn-outline-primary btn-lg rounded-pill">Book <i class="fas fa-check"></i> </a>
+      </li>
+    {% endif %}
+    {% endif %}
+    {% if request.user != event.organizer %}
+    {% if event.seats_left == 0 %} 
+      <li class="list-group-item text-center border-warning">
+              <button class="btn btn-danger btn-lg rounded-pill">Full House <i class="fab fa-angellist"></i></button>
+      </li>
+    {% endif %} 
     {% endif %}  
-
 </div>  
-{% comment %}
- {% if event.organizer==request.user %}
-    <h5 class="card-title">Our Items</h5>
-  <ul class="list-group list-group-flush">
-    {% for item in items %}
-      <li class="list-group-item">
-        <p><b>{{item.name}}</b></p>
-        <p>{{item.description|linebreaks}}</p>
-        <p>{{item.price}} KWD</p>
-      </li>
-    {% endfor %}
-  </ul>
-
-  <div class="card-body">
-    <div class="row text-center">
-      {% if request.user.is_staff %}
-        <div class="col-md-4">
-            <a href="{% url 'restaurant-update' restaurant.id %}" class="btn btn-outline-primary btn-block">Update</a>
-        </div>
-        <div class="col-md-4">
-            <a href="{% url 'restaurant-delete' restaurant.id %}" class="btn btn-outline-danger btn-block">Delete</a>
-        </div>
-        <div class="col-md-4">
-            <a href="{% url 'item-create' restaurant.id %}" class="btn btn-outline-success btn-block">Add Item</a>
-        </div>
-      {% elif request.user == restaurant.owner %}
-        <div class="col-md-6">
-            <a href="{% url 'restaurant-update' restaurant.id %}" class="btn btn-outline-primary btn-block">Update</a>
-        </div>
-        <div class="col-md-6">
-            <a href="{% url 'item-create' restaurant.id %}" class="btn btn-outline-success btn-block">Add Item</a>
-        </div>
-      {% endif %}
-    </div>
-  </div>
-{% endcomment %}
 </div>
+</div>
+</div>
+</header>
 {% endblock content %}

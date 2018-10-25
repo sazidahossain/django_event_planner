@@ -3,33 +3,34 @@
 {% block title %}List{% endblock title %}
 
 {% block content %}
-<br></br>
-<br></br>
+<header class="masthead">
+<div class="backx">
 <div class="container">
 <form action="{% url 'event-list' %}">
   <div class="input-group mb-3">
     <input type="text" class="form-control" placeholder="Search" aria-label="Search" name="q" value="{{request.GET.q}}">
     <div class="input-group-append">
-      <button class="btn btn-outline-secondary" type="submit">Search</button>
+      <button class="btn btn-outline-warning" type="submit"><i class="fas fa-search"></i></button>
     </div>
   </div>
 </form>
 </div>
+
 <div class="container">
 <div class="row">
     {% for event in events %}
-    <div class="col-md-4">
-        <div class="card my-card">
+    <div class="col-md-4 mt-4">
+        <div class="card my-card border-warning">
           
           <div class="card-body">
-            <h5 class="card-title">Title: {{event.title}}</h5>
-            <p class="card-text">Date: {{event.date|truncatechars:25}}</p>
-            <p class="card-text">Time: {{event.time|truncatechars:25}}</p>
-            <p class="card-text">Capacity: {{event.capacity|truncatechars:25}}</p>
-            <p class="card-text">Seats Available: {{event.capacity|truncatechars:25}}</p>
+            <h1 class="card-title text-warning ">Title: {{event.title}}</h1>
+            <h5 class="card-text">Date: {{event.date|truncatechars:25}}</h5>
+            <h5 class="card-text">Time: {{event.time|truncatechars:25}}</h5>
+            <h5 class="card-text">Capacity: {{event.capacity|truncatechars:25}}</h5>
+            <h5 class="card-text">Seats Available: {{event.seats_left|truncatechars:25}}</h5>
           <ul class="list-group list-group-flush">
             <li class="list-group-item text-center">
-                <a href="{% url 'event-detail' event.id %}" class="btn btn-outline-dark">View Details</a>
+                <a href="{% url 'event-detail' event.id %}" class="btn btn-dark">View Details <i class="fas fa-eye"></i></a>
             </li>
 
           </ul>
@@ -41,28 +42,8 @@
     {% endfor %}
 </div>
 </div>
+</div>
+</header>
 
-<!--
-<script>
-function favorite(restaurant_id){
-  let button_id = "#button-"+restaurant_id
-  $.ajax({
-    url: "/restaurants/"+restaurant_id+"/favorite/",
-    type: "GET",
-    success: function(data){
-      if(data.action === "favorite"){
-        $(button_id).addClass('text-danger')
-      }
-      else{
-        $(button_id).removeClass('text-danger')
-      }
-    },
-    error: function(){
-      alert("Something went Wrong!")
-    },
-  })
-}
-</script>
--->
 {% endblock content %}
 
